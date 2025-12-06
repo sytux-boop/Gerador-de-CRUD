@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerar</title>
+</head>
+
+<body>
+    <label for="nomeClasse">Nome da classe</label>
+    <input type="text" id="nomeClasse" style="padding: 5px;"><br><br>
+    <label for="atributos">Atributos</label>
+    <input type="text" id="atributos" style="width: 500px; padding: 5px;" placeholder='Separe por vírgula: "nome, preco, estoque,..." (ID já incluso)'><br><br>
+    <label for="atributosTipo">Tipo dos Atributos</label>
+    <input type="text" id="atributosTipo" style="width: 500px; padding: 5px;" placeholder='Separe por vírgula: "text, number, color,..."'><br><br>
+
+    <input type="button" value="Model" onclick="gerarModel()">
+    <input type="button" value="View" onclick="gerarView()">
+    <input type="button" value="Controller" onclick="gerarController()">
+
+    <br><br>
+    <textarea name="taCodigoFonte" id="taCodigoFonte" cols="200" rows="40" readonly style="outline: none;"></textarea>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
+
+<!-- class Carro {
+constructor(placa, nome, dataLancamento, peso, cor, posicaoNaLista) {
+this.placa = placa;
+this.nome = nome;
+this.dataLancamento = dataLancamento;
+this.peso = peso;
+this.cor = cor;
+
+
+this.posicaoNaLista = posicaoNaLista; //atributo para facilitar a alteração e exclusão
+}
+} -->
