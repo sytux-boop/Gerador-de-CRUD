@@ -39,7 +39,7 @@ function gerarView() {
         <option value="0">Opção 1</option>
         <option value="1">Opção 2</option>
         <option value="2">Opção 3</option>
-    </select>\n`
+    </select></br>\n`
         } else {
             inputs += `    <label for="${inputID}">${inputID.charAt(0).toUpperCase() + inputID.slice(1)}: </label>
     <input type="${inputType}" id="${inputID}"><br>\n`
@@ -79,7 +79,7 @@ function gerarView() {
 
    <label for="inputId">Id</label>
    <input type="number" name="inputId" id="inputId">
-   <input type="button" value="Procure" id="btProcure" onclick="procure()" style="display:inline;">
+   <input type="button" value="Procure" id="btProcure" onclick="procurar()" style="display:inline;">
    <input type="button" value="Inserir" id="btInserir" onclick="inserir()" style="display:none;">
    <input type="button" value="Alterar" id="btAlterar" onclick="alterar()" style="display:none;">
    <input type="button" value="Excluir" id="btExcluir" onclick="excluir()" style="display:none;">
@@ -136,17 +136,25 @@ function gerarController() {
     for(let i = 0; i < vetAtributos.length; i++) {
         if (vetAtributosTipo[i] == "number") {
             atribuicaoValores += `    const ${vetAtributos[i]} = parseInt(document.getElementById("${vetAtributos[i]}").value)\n`
+        } else if (vetAtributosTipo[i] == "checkbox") {
+            atribuicaoValores += `    const ${vetAtributos[i]} = document.getElementById("${vetAtributos[i]}").checked\n`
         } else {
             atribuicaoValores += `    const ${vetAtributos[i]} = document.getElementById("${vetAtributos[i]}").value\n`
         }
 
-        verificacoes += ` && ${vetAtributos[i]}`
         separadoVirgula += `, ${vetAtributos[i]}`
         listagem += ` + " - " + linha.${vetAtributos[i]}`
-        preencher += `    document.getElementById("${vetAtributos[i]}").value = registo.${vetAtributos[i]}\n`
-        limpar += `    document.getElementById("${vetAtributos[i]}").value = ""\n`
 
-        if (vetAtributosTipo[i] == "select") {
+        if (vetAtributosTipo[i] == "checkbox") {
+            limpar += `    document.getElementById("${vetAtributos[i]}").checked = false\n`
+            preencher += `    document.getElementById("${vetAtributos[i]}").checked = registo.${vetAtributos[i]}\n`
+        } else {
+            limpar += `    document.getElementById("${vetAtributos[i]}").value = ""\n`
+            preencher += `    document.getElementById("${vetAtributos[i]}").value = registo.${vetAtributos[i]}\n`
+            verificacoes += ` && ${vetAtributos[i]}`
+        }
+
+        if (vetAtributosTipo[i] == "select" || vetAtributosTipo[i] == "checkbox") {
             readOnly += `    document.getElementById("${vetAtributos[i]}").disabled = soLeitura\n`
         } else {
             readOnly += `    document.getElementById("${vetAtributos[i]}").readOnly = soLeitura\n`
@@ -163,10 +171,10 @@ let atividade = ''
 let registo = null 
 bloquearAtributos(true)
 
-function procurePorChavePrimaria(chave) {
+function procurarID(id) {
     for(let i = 0;i < listaDados.length;i++) {
         const dado = listaDados[i]
-        if (dado.id == chave) {
+        if (dado.id == id) {
             dado.posicaoNaLista = i
             return dado
         }
@@ -174,10 +182,12 @@ function procurePorChavePrimaria(chave) {
     return null
 }
 
-function procure() {
+function procurar() {
+    visibilidadeDosBotoes('inline', 'none', 'none', 'none', 'none')
+    limparAtributos()
     const id = document.getElementById("inputId").value
     if (id && Number.isInteger(Number(id)) && id >= 0) {
-        registo = procurePorChavePrimaria(id)
+        registo = procurarID(id)
         if (registo) { 
             mostrarDados(registo)
             visibilidadeDosBotoes('inline', 'none', 'inline', 'inline', 'none') 
