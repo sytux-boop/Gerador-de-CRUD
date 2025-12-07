@@ -1,10 +1,11 @@
-class Classe {
-    constructor(id, at1, at2, at3, posicaoNaLista) {
+class Alunos {
+    constructor(id, nome, matricula, coeficiente, escola, posicaoNaLista) {
         this.id = id;
-        this.at1 = at1;
-        this.at2 = at2;
-        this.at3 = at3;
+        this.nome = nome;
+        this.matricula = matricula;
+        this.coeficiente = coeficiente;
+        this.escola = escola;
 
-        this.posicaoNaLista = posicaoNaLista; //atributo para facilitar a alteração e exclusão 
+        this.posicaoNaLista = posicaoNaLista;
     }
 }
